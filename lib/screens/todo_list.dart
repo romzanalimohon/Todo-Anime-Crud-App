@@ -6,6 +6,8 @@ import 'package:todo_anime_crud_app/screens/detail%20page/detail.dart';
 
 import 'add_page.dart';
 
+String ip = "192.168.0.102";
+
 class TodoListPage extends StatefulWidget {
 
 
@@ -43,12 +45,17 @@ class _TodoListPageState extends State<TodoListPage> {
                 return GestureDetector(
                   onTap: (){
                     setState(() {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage(items[index])));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage(items[index])));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailPage(item: id)));
+                      //print(items[index]);
+                      //print(id);
                     });
                   },
                   child: ListTile(
                     //leading: CircleAvatar(child: Image.network("${item['image']}") ),
-                    leading: CircleAvatar(child: Image.network(item['image']),),
+                    //leading: CircleAvatar(child: Image.network(item['image']),),
+                    //leading: CircleAvatar(child: Text(item['id'].toString()),),
+                    leading: CircleAvatar(child: Text(id.toString()),),
                     title: Text(item['username'], ),
                     //subtitle: Text(item['password'], ),
                     trailing: PopupMenuButton(
@@ -99,7 +106,7 @@ class _TodoListPageState extends State<TodoListPage> {
   }
 
   Future<void> deleteById(int id) async{
-    final url = 'http://192.168.0.103:5000/users/$id';
+    final url = 'http://$ip:5000/users/$id';
     final uri = Uri.parse(url);
     final response = await http.delete(uri);
     if(response.statusCode == 200){
@@ -117,7 +124,7 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       isLoading = true;
     });
-    final url = 'http://192.168.0.103:5000/users';
+    final url = 'http://$ip:5000/users';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     if(response.statusCode == 200){
